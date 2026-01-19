@@ -113,7 +113,7 @@ function App() {
     <HexagonBackground
       className="absolute inset-0 flex items-center justify-center rounded-xl bg-bg text-text"
       bgColorBefore="before:bg-brand/10 dark:before:bg-surface before:animate-[hexagon-fade_10s_ease-in-out_infinite]"
-      bgColorAfer="after:bg-bg dark:after:bg-bg"
+      bgColorAfer="after:bg-bg dark:after:bg-bg/50"
     // hexagonProps={{
     //   className:
     //     "motion-safe:animate-[hexagon-breathe_6s_ease-in-out_infinite] motion-safe:will-change-transform",
@@ -129,11 +129,11 @@ function App() {
       <div className="relative z-10">
         <header className="flex flex-col gap-4 border-b border-border px-6 py-6 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.35em] text-text-muted">
+            <p className=" uppercase tracking-[0.35em] text-text-muted">
               MC Portfolio
             </p>
             <h1 className="mt-2 text-3xl font-semibold">
-              Design-forward developer portfolio
+              Full Stack Web Developer
             </h1>
             <p className="mt-2 max-w-xl text-sm text-text-muted">
               Theme tokens power every surface, text style, and shadow. Toggle
