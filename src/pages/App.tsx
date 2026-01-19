@@ -112,8 +112,12 @@ function App() {
   return (
     <HexagonBackground
       className="absolute inset-0 flex items-center justify-center rounded-xl bg-bg text-text"
-      bgColorBefore="before:bg-brand/10 dark:before:bg-surface before:animate-[hexagon-fade_6s_ease-in-out_infinite]"
+      bgColorBefore="before:bg-brand/10 dark:before:bg-surface before:animate-[hexagon-fade_10s_ease-in-out_infinite]"
       bgColorAfer="after:bg-bg dark:after:bg-bg"
+    // hexagonProps={{
+    //   className:
+    //     "motion-safe:animate-[hexagon-breathe_6s_ease-in-out_infinite] motion-safe:will-change-transform",
+    // }}
     >
       {/* {particlesReady ? (
         <Particles

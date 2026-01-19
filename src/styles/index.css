@@ -16,6 +16,16 @@
   }
 }
 
+@keyframes hexagon-breathe {
+  0%,
+  100% {
+    transform: scale(0.98);
+  }
+  50% {
+    transform: scale(1.52);
+  }
+}
+
 @theme {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
