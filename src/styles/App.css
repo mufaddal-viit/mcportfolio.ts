@@ -1,3 +1,18 @@
 #root {
   min-height: 100%;
 }
+
+#main {
+  --main-scale: 1.5;
+  --main-shift: -120px;
+  max-width: min(92vw, 1100px);
+  transform: translateY(var(--main-shift)) scale(var(--main-scale));
+  transform-origin: center;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #main {
+    transform: none;
+  }
+}

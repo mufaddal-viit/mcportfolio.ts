@@ -1,12 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/App.css";
 import { HexagonBackground } from "../components/animate-ui/components/backgrounds/hexagon";
-
-// import { initParticlesEngine } from "@tsparticles/react";
-// import type { ISourceOptions } from "@tsparticles/engine";
-// import { loadSlim } from "@tsparticles/slim";
-// import Particles from "@tsparticles/react";
-
 const THEME_STORAGE_KEY = "theme";
 type Theme = "light" | "dark";
 
@@ -28,6 +22,7 @@ const getInitialTheme = (): Theme => {
 function App() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const nextTheme = theme === "dark" ? "light" : "dark";
+  const mainRef = useRef<HTMLDivElement | null>(null);
 
   // const [particlesReady, setParticlesReady] = useState(false);
   // useEffect(() => {
@@ -42,72 +37,57 @@ function App() {
     window.localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
 
-  // const particleOptions = useMemo<ISourceOptions>(() => {
-  //   const particleColor = theme === "dark" ? "#dee2e6" : "#2a6f97";
-  //
-  //   return {
-  //     background: {
-  //       color: {
-  //         value: "transparent",
-  //       },
-  //     },
-  //     fpsLimit: 60,
-  //     interactivity: {
-  //       events: {
-  //         onHover: {
-  //           enable: true,
-  //           mode: "repulse",
-  //         },
-  //         resize: true,
-  //       },
-  //       modes: {
-  //         repulse: {
-  //           distance: 120,
-  //           duration: 0.2,
-  //         },
-  //       },
-  //     },
-  //     particles: {
-  //       color: {
-  //         value: particleColor,
-  //       },
-  //       links: {
-  //         color: particleColor,
-  //         distance: 140,
-  //         enable: true,
-  //         opacity: 0.25,
-  //         width: 1,
-  //       },
-  //       move: {
-  //         direction: "none",
-  //         enable: true,
-  //         outModes: {
-  //           default: "out",
-  //         },
-  //         random: false,
-  //         speed: 0.6,
-  //         straight: false,
-  //       },
-  //       number: {
-  //         density: {
-  //           enable: true,
-  //           area: 900,
-  //         },
-  //         value: 40,
-  //       },
-  //       opacity: {
-  //         value: 0.4,
-  //       },
-  //       shape: {
-  //         type: "circle",
-  //       },
-  //       size: {
-  //         value: { min: 1, max: 3 },
-  //       },
-  //     },
-  //     detectRetina: true,
-  //   };
-  // }, [theme]);
+  useEffect(() => {
+    const main = mainRef.current;
+    if (!main) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia
+      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      : false;
+
+    if (prefersReducedMotion) {
+      main.style.setProperty("--main-scale", "1");
+      main.style.setProperty("--main-shift", "0px");
+      return;
+    }
+
+    let rafId = 0;
+    const scaleStart = 1.5;
+    const scaleEnd = 1;
+    const shiftStart = -120;
+
+    const update = () => {
+      rafId = 0;
+      const maxScroll = Math.max(window.innerHeight * 0.6, 240);
+      const progress = Math.min(window.scrollY / maxScroll, 1);
+      const scale = scaleStart + (scaleEnd - scaleStart) * progress;
+      const shift = shiftStart * (1 - progress);
+
+      main.style.setProperty("--main-scale", scale.toFixed(3));
+      main.style.setProperty("--main-shift", `${shift.toFixed(1)}px`);
+    };
+
+    const onScroll = () => {
+      if (rafId) {
+        return;
+      }
+      rafId = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
+  }, []);
 
   return (
     <HexagonBackground
@@ -149,51 +129,9 @@ function App() {
             </button>
           </div>
         </header>
-
-        {/* <main className="grid gap-6 px-6 py-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="rounded-[var(--radius-card)] bg-surface p-6 shadow-card">
-            <h2 className="text-xl font-semibold">Token-driven surfaces</h2>
-            <p className="mt-2 text-sm text-text-muted">
-              Use `bg-surface`, `bg-surface-2`, and `text-text-muted` utilities
-              to keep sections consistent across light and dark modes.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <span className="rounded-full bg-brand px-3 py-1 text-sm font-medium text-bg">
-                Brand
-              </span>
-              <span className="rounded-full bg-accent px-3 py-1 text-sm font-medium text-bg">
-                Accent
-              </span>
-              <span className="rounded-full bg-accent-2 px-3 py-1 text-sm font-medium text-bg">
-                Accent 2
-              </span>
-            </div>
-          </section>
-
-          <section className="rounded-[var(--radius-card)] bg-surface-2 p-6 shadow-card-strong">
-            <h2 className="text-xl font-semibold">Practical layout token</h2>
-            <p className="mt-2 text-sm text-text-muted">
-              Borders and shadows are mapped to variables so cards and
-              navigation keep a consistent depth and hierarchy.
-            </p>
-            <div className="mt-6 grid gap-4">
-              <div className="rounded-[var(--radius-card)] border border-border bg-bg p-4">
-                <p className="text-sm font-medium">Featured case study</p>
-                <p className="mt-1 text-xs text-text-muted">
-                  Powered by `border-border`, `bg-bg`, and tokenized shadows.
-                </p>
-              </div>
-              <div className="rounded-[var(--radius-card)] border border-border bg-bg p-4">
-                <p className="text-sm font-medium">Availability window</p>
-                <p className="mt-1 text-xs text-text-muted">
-                  Blend tokens for clear contrast and soft separation.
-                </p>
-              </div>
-            </div>
-          </section>
-        </main> */}
       </div>
     </HexagonBackground>
+    // </div >
   );
 }
 
