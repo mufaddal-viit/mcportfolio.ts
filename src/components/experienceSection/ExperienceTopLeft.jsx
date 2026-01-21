@@ -5,7 +5,7 @@ const ExperienceTopLeft = () => {
   const { sinceLabel, infoItems, description } = experienceSection.topLeft;
 
   return (
-    <div className="flex flex-col gap-9 w-[300px]">
+    <div className="flex flex-col gap-9 w-75">
       <p className="text-lightCyan font-bold uppercase text-2xl font-special text-center">
         {sinceLabel}
       </p>

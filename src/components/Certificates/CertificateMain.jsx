@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { fadeIn } from "../../framerMotion/variants";
 import CertificateText from "./CertificateText";
 import CertificateImage from "./CertificateImage";
+import { certificatesSection } from "../../lib/data";
 
 export default function CertificateMain() {
   return (
@@ -14,27 +15,19 @@ export default function CertificateMain() {
       >
           {/* //heading */}
         <h2 className="text-4xl md:text-5xl lg:text-6xl text-cyan mb-12 text-center font-bold">
-          Certificates 
+          {certificatesSection.heading}
         </h2>
 
         <div className="flex flex-col gap-16 lg:flex-row lg:gap-24 bg-brown p-8 md:p-12 rounded-2xl mb-20">
-          {/* Certificate 1 */}
-          <div className="flex flex-col items-center text-center flex-1">
-            <CertificateText certName="AWS Certified Developer" />
-            <CertificateImage
-              urlz="/images/aws_developer.png"
-              name="Certified Developer"
-            />
-          </div>
-
-          {/* Certificate 2 */}
-          <div className="flex flex-col items-center text-center flex-1">
-            <CertificateText certName="AWS Cloud Practitioner" />
-            <CertificateImage
-              urlz="/images/aws_cloudprac.png"
-              name="Cloud Practitioner"
-            />
-          </div>
+          {certificatesSection.items.map((item) => (
+            <div key={item.name} className="flex flex-col items-center text-center flex-1">
+              <CertificateText certName={item.name} />
+              <CertificateImage
+                urlz={item.imageSrc}
+                name={item.imageLabel ?? item.name}
+              />
+            </div>
+          ))}
         </div>
       </motion.div>
     </div>

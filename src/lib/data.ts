@@ -12,6 +12,7 @@ export type CertificateItem = {
   imageSrc: string;
   alt: string;
   url?: string;
+  imageLabel?: string;
 };
 
 export type CertificatesSection = {
@@ -176,11 +177,13 @@ export const certificatesSection: CertificatesSection = {
       name: "AWS Certified Developer",
       imageSrc: "/images/aws_developer.png",
       alt: "AWS Certified Developer badge",
+      imageLabel: "Certified Developer",
     },
     {
       name: "AWS Cloud Practitioner",
       imageSrc: "/images/aws_cloudprac.png",
       alt: "AWS Cloud Practitioner badge",
+      imageLabel: "Cloud Practitioner",
     },
   ],
 };

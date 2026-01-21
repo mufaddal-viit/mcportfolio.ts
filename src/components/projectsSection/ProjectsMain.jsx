@@ -6,7 +6,7 @@ import { projectsSection } from "../../lib/data";
 
 const ProjectsMain = () => {
   return (
-    <div id="projects" className="max-w-[1200px] mx-auto px-4">
+    <div id="projects" className="max-w-300 mx-auto px-4">
       <motion.div
         variants={fadeIn("top", 0)}
         initial="hidden"
@@ -15,7 +15,7 @@ const ProjectsMain = () => {
       >
         <ProjectsText />
       </motion.div>
-      <div className="flex flex-col gap-20 max-w-[900px] mx-auto mt-12 ">
+      <div className="flex flex-col gap-20 max-w-225 mx-auto mt-12 ">
         {projectsSection.items.map((project, index) => {
           return (
             <SingleProject
