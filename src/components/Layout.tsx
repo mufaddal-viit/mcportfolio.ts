@@ -12,7 +12,7 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="relative min-h-screen overflow-x-hidden">
       <SmoothCursor />
       <HexagonBackground
-        className="fixed inset-0 -z-10 bg-bg text-text"
+        className="pointer-events-none fixed inset-0 z-0 bg-transparent text-text dark:bg-transparent"
         bgColorBefore="before:bg-brand/10 dark:before:bg-surface before:animate-[hexagon-fade_10s_ease-in-out_infinite]"
         bgColorAfer="after:bg-bg dark:after:bg-bg/50"
         aria-hidden="true"
